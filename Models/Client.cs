@@ -16,4 +16,6 @@ public class Client
     
     [MaxLength(50)]
     public string EmailAddress { get; set; }
+    [Required]
+    public List<AccountInBank> AccountsInBank { get; set; }
 }
