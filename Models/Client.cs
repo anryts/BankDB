@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BankDB.Models;
 
-[Table("Clients")]
 public class Client : Person
 {
     [MaxLength(50)] public string Citizenship { get; set; }

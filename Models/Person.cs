@@ -9,7 +9,7 @@ namespace BankDB.Models;
 public class Person
 {
     [Key] [Column("person_id")]public int PersonId { get; set; }
-    [Required] [MaxLength(20)] public string FirsName { get; set; }
+    [Required] [MaxLength(20)] public string FirstName { get; set; }
     [Required] [MaxLength(20)] public string LastName { get; set; }
     [Required] [MaxLength(20)] [EmailAddress]public string EmailAddres { get; set; }
 }

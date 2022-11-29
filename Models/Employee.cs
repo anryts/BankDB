@@ -2,7 +2,6 @@
 
 namespace BankDB.Models;
 
-[Table("Employees")]
 public class Employee : Person
 {
     public string EmployeePhone { get; set; }

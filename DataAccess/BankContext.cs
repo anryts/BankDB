@@ -10,10 +10,7 @@ public class BankContext : DbContext
     public DbSet<Bank> Bank { get; set; }
     public DbSet<Client> Client { get; set; }
 
-    public BankContext()
-    {
-        //Database.EnsureCreated();
-    }
+    public BankContext() { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

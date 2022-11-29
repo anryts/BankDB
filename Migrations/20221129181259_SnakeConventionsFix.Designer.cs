@@ -3,6 +3,7 @@ using System;
 using BankDB.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankDB.Migrations
 {
     [DbContext(typeof(BankContext))]
-    partial class BankContextModelSnapshot : ModelSnapshot
+    [Migration("20221129181259_SnakeConventionsFix")]
+    partial class SnakeConventionsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,11 +133,11 @@ namespace BankDB.Migrations
                         .HasColumnType("character varying(20)")
                         .HasColumnName("email_addres");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("FirsName")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("first_name");
+                        .HasColumnName("firs_name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -173,11 +176,11 @@ namespace BankDB.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("employee_phone");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("FirsName")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("first_name");
+                        .HasColumnName("firs_name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
