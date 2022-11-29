@@ -1,21 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BankDB.Models;
 
-public class Client
+[Table("Clients")]
+public class Client : Person
 {
-    [Key]
-    public int ClientId { get; set; }
+    [MaxLength(50)] public string Citizenship { get; set; }
 
-    [Required]
-    [MaxLength(50)]
-    public string FirstName { get; set; }
-    [Required]
-    [MaxLength(50)]
-    public string LastName { get; set; }
-    
-    [MaxLength(50)]
-    public string EmailAddress { get; set; }
-    [Required]
+    // relations
+    public List<ServiceForClientInBank> ServiceForClientInBanks { get; set; }
     public List<AccountInBank> AccountsInBank { get; set; }
 }

@@ -1,18 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BankDB.Models;
 
-public class Employee
+[Table("Employees")]
+public class Employee : Person
 {
-    [Key]   
-    public string EmployeeID { get; set; }
-    [Required]
-    [StringLength(50)] // diff between this and max length?
-    public string EmployeeNameFirstName { get; set; }
-    [Required]
-    [MaxLength(50)]
-    public string EmployeeNameLastName { get; set; }
-    [Required]
     public string EmployeePhone { get; set; }
-    public string EmployeeEmail { get; set; }
+    public int OccupationId { get; set; }
+    public int BankBranchId { get; set; }
+
+    public Occupation Occupation { get; set; } = null!;
+    public BankBranch BankBranch { get; set; } = null!;
 }

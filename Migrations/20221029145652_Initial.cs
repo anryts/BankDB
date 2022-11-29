@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BankDB.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,8 @@ namespace BankDB.Migrations
                 {
                     BankId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    BankName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    BankName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    CountOfBanks = table.Column<int>(type: "integer", nullable: false) 
                 },
                 constraints: table =>
                 {
@@ -28,9 +29,8 @@ namespace BankDB.Migrations
                 {
                     ClientId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    EmailAddress = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    EmailAddress = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    ClientName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +41,7 @@ namespace BankDB.Migrations
                 name: "AccountInBank",
                 columns: table => new
                 {
-                    AccountID = table.Column<int>(type: "integer", nullable: false)
+                    AccountId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AmountOnAccount = table.Column<decimal>(type: "numeric", nullable: false),
                     Currency = table.Column<string>(type: "text", nullable: false),
@@ -49,7 +49,7 @@ namespace BankDB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountInBank", x => x.AccountID);
+                    table.PrimaryKey("PK_AccountInBank", x => x.AccountId);
                     table.ForeignKey(
                         name: "FK_AccountInBank_Client_ClientId",
                         column: x => x.ClientId,

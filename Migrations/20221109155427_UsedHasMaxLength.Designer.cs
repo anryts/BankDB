@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankDB.Migrations
 {
     [DbContext(typeof(BankContext))]
-    [Migration("20221025205350_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221109155427_UsedHasMaxLength")]
+    partial class UsedHasMaxLength
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,11 @@ namespace BankDB.Migrations
 
             modelBuilder.Entity("BankDB.Models.AccountInBank", b =>
                 {
-                    b.Property<int>("AccountID")
+                    b.Property<int>("AccountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AccountID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AccountId"));
 
                     b.Property<decimal>("AmountOnAccount")
                         .HasColumnType("numeric");
@@ -42,7 +42,7 @@ namespace BankDB.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("AccountID");
+                    b.HasKey("AccountId");
 
                     b.HasIndex("ClientId");
 
@@ -56,6 +56,11 @@ namespace BankDB.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BankId"));
+
+                    b.Property<string>("BankAddress")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("BankName")
                         .IsRequired()
@@ -71,7 +76,8 @@ namespace BankDB.Migrations
                 {
                     b.Property<int>("ClientId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("client_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClientId"));
 
@@ -93,6 +99,28 @@ namespace BankDB.Migrations
                     b.HasKey("ClientId");
 
                     b.ToTable("Client");
+                });
+
+            modelBuilder.Entity("BankDB.Models.Employee", b =>
+                {
+                    b.Property<string>("EmployeeID")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmployeeEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmployeePhone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("EmployeeID");
+
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("BankDB.Models.AccountInBank", b =>

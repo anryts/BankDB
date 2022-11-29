@@ -4,7 +4,7 @@
 
 namespace BankDB.Migrations
 {
-    public partial class AddAccountInBank : Migration
+    public partial class EmployeeFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

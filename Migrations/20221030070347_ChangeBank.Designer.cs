@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankDB.Migrations
 {
     [DbContext(typeof(BankContext))]
-    [Migration("20221025205840_AddAccountInBank")]
-    partial class AddAccountInBank
+    [Migration("20221030070347_ChangeBank")]
+    partial class ChangeBank
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,11 @@ namespace BankDB.Migrations
 
             modelBuilder.Entity("BankDB.Models.AccountInBank", b =>
                 {
-                    b.Property<int>("AccountID")
+                    b.Property<int>("AccountId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AccountID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AccountId"));
 
                     b.Property<decimal>("AmountOnAccount")
                         .HasColumnType("numeric");
@@ -42,7 +42,7 @@ namespace BankDB.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("AccountID");
+                    b.HasKey("AccountId");
 
                     b.HasIndex("ClientId");
 
