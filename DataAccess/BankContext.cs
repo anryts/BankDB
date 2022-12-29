@@ -2,6 +2,7 @@
 using BankDB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace BankDB.DataAccess;
 
@@ -11,6 +12,7 @@ public class BankContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<AccountInBank> AccountInBanks { get; set; }
+    public DbSet<ServiceForClientInBank> ServiceForClientInBanks { get; set; }
 
     public BankContext() { }
 
@@ -23,7 +25,12 @@ public class BankContext : DbContext
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsetings.json")
             .Build();
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+        
+        optionsBuilder
+            .UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+            .LogTo(Console.WriteLine, new [] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+            .EnableDetailedErrors()
+            .UseLazyLoadingProxies();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

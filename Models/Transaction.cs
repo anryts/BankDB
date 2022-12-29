@@ -10,5 +10,5 @@ public class Transaction
     [Required] public string TransactionName { get; set; }
     public int  AccountInBankId { get; set; }
 
-    public AccountInBank AccountInBank { get; set; }
+    public virtual AccountInBank AccountInBank { get; set; }
 }

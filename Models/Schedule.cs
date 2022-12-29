@@ -6,6 +6,6 @@ public class Schedule
     public string Name { get; set; }
     
     
-    public ICollection<Employee> Employee { get; set; }
-    public ICollection<WorkingDay> WorkingDays { get; set; }
+    public virtual ICollection<Employee> Employee { get; set; }
+    public virtual ICollection<WorkingDay> WorkingDays { get; set; }
 }

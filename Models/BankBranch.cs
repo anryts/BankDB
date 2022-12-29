@@ -7,6 +7,6 @@ public class BankBranch
     public int BankId { get; set; }
     
     //Navigation Property
-    public Bank Bank { get; set; }
-    public ICollection<Employee> Employees { get; set; }
+    public virtual Bank Bank { get; set; }
+    public virtual ICollection<Employee> Employees { get; set; }
 }

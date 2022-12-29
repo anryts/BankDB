@@ -12,7 +12,7 @@ public class WorkingDay
     public string CloseTime { get; set; }
 
 
-    public Schedule Schedule { get; set; }
+    public virtual Schedule Schedule { get; set; }
    //    public DateTimeOffset OpenTime { get; set; } 
 }
 

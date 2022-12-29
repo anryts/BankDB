@@ -9,8 +9,8 @@ public class Employee : Person
     public int BankBranchId { get; set; }
     public int ScheduleId { get; set; }
 
-    public Occupation Occupation { get; set; }
+    public virtual Occupation Occupation { get; set; }
 
-    public Schedule EmployeeSchedule { get; set;}
-    public BankBranch BankBranch { get; set;} 
+    public virtual Schedule EmployeeSchedule { get; set;}
+    public  virtual BankBranch BankBranch { get; set;} 
 }

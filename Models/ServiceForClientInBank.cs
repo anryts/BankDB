@@ -7,6 +7,6 @@ public class ServiceForClientInBank
     public int ClientId { get; set; }
     public int ServiceInBankId { get; set; }
 
-    public Client Client { get; set; }
-    public ServiceInBank ServiceInBank { get; set; }
+    public virtual Client Client { get; set; }
+    public virtual ServiceInBank ServiceInBank { get; set; }
 }
