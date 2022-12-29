@@ -7,16 +7,19 @@ namespace BankDB.DataAccess;
 
 public class BankContext : DbContext
 {
-    public DbSet<Bank> Bank { get; set; }
-    public DbSet<Client> Client { get; set; }
+    public DbSet<Bank> Banks { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<AccountInBank> AccountInBanks { get; set; }
 
     public BankContext() { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSnakeCaseNamingConvention();
+       
 
-        IConfigurationRoot configuration = new ConfigurationBuilder()
+        var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsetings.json")
             .Build();
@@ -35,6 +38,15 @@ public class BankContext : DbContext
         modelBuilder.Entity<AccountInBank>()
             .HasMany(b => b.Transactions)
             .WithOne(x => x.AccountInBank);
+        
+        modelBuilder.Entity<Schedule>()
+            .HasMany(x=> x.Employee)
+            .WithOne(x=> x.EmployeeSchedule);
+        
+        modelBuilder.Entity<Schedule>()
+            .HasMany(x=> x.WorkingDays)
+            .WithOne(x=> x.Schedule);
+        
         modelBuilder.ApplyConfiguration(new ClientConfiguration());
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
         modelBuilder.ApplyConfiguration(new WorkingDaysConfiguration());

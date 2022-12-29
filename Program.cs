@@ -4,28 +4,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankDB
 {
+    ///union, except, intersect, join, distinct, group by, агрегатних функцій.
     class Program
     {
         static void Main(string[] args)
         {
-            var db = new BankContext();
-            var clients = db.Client.ToList();
-            var client = clients.FirstOrDefault(x => x.FirstName=="Alex");
-            db.Client.Remove(client);
-            // clients.ForEach(x=> Console.WriteLine(x.FirsName));
-            db.SaveChanges();
-            db.Client.ToList().ForEach(x=> Console.WriteLine(x.FirstName));
-
-            // var Client = new Client
-            // {
-            //     FirsName = "John",
-            //     LastName = "Doe",
-            //     Citizenship = "USA",
-            //     EmailAddres = "test@gmail.com"
-            
-            // };
-
-            // db.Add(Client);
+            using (var db = new BankContext())
+            {
+                //вибираю всіх клієнтів з певними полями з БД і вивожу їх на екран 
+                var result = db.Clients.Select(x => new
+                {
+                    FullName = x.FirstName + " " + x.LastName,
+                    Citizenship = x.Citizenship,
+                    EmailAddress = x.EmailAddres,
+                });
+                foreach (var item in result)
+                {
+                    Console.WriteLine("**********************************************");
+                    Console.WriteLine($"FullName: {item.FullName}");
+                    Console.WriteLine($"Citizenship: {item.Citizenship}");
+                    Console.WriteLine($"EmailAddress: {item.EmailAddress}");
+                    Console.WriteLine("**********************************************");
+                }
+            }
         }
     }
 }

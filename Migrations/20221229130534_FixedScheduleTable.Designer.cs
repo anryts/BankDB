@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankDB.Migrations
 {
     [DbContext(typeof(BankContext))]
-    [Migration("20221129183229_FixedFirstName")]
-    partial class FixedFirstName
+    [Migration("20221229130534_FixedScheduleTable")]
+    partial class FixedScheduleTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,12 +48,12 @@ namespace BankDB.Migrations
                         .HasColumnName("currency");
 
                     b.HasKey("AccountId")
-                        .HasName("pk_account_in_bank");
+                        .HasName("pk_account_in_banks");
 
                     b.HasIndex("ClientPersonId")
-                        .HasDatabaseName("ix_account_in_bank_client_person_id");
+                        .HasDatabaseName("ix_account_in_banks_client_person_id");
 
-                    b.ToTable("account_in_bank", (string)null);
+                    b.ToTable("account_in_banks", (string)null);
                 });
 
             modelBuilder.Entity("BankDB.Models.Bank", b =>
@@ -78,9 +78,9 @@ namespace BankDB.Migrations
                         .HasColumnName("bank_name");
 
                     b.HasKey("BankId")
-                        .HasName("pk_bank");
+                        .HasName("pk_banks");
 
-                    b.ToTable("bank", (string)null);
+                    b.ToTable("banks", (string)null);
                 });
 
             modelBuilder.Entity("BankDB.Models.BankBranch", b =>
@@ -146,9 +146,9 @@ namespace BankDB.Migrations
                         .HasColumnName("last_name");
 
                     b.HasKey("PersonId")
-                        .HasName("pk_client");
+                        .HasName("pk_clients");
 
-                    b.ToTable("client", (string)null);
+                    b.ToTable("clients", (string)null);
                 });
 
             modelBuilder.Entity("BankDB.Models.Employee", b =>
@@ -192,16 +192,23 @@ namespace BankDB.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("occupation_id");
 
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("schedule_id");
+
                     b.HasKey("PersonId")
-                        .HasName("pk_employee");
+                        .HasName("pk_employees");
 
                     b.HasIndex("BankBranchId")
-                        .HasDatabaseName("ix_employee_bank_branch_id");
+                        .HasDatabaseName("ix_employees_bank_branch_id");
 
                     b.HasIndex("OccupationId")
-                        .HasDatabaseName("ix_employee_occupation_id");
+                        .HasDatabaseName("ix_employees_occupation_id");
 
-                    b.ToTable("employee", (string)null);
+                    b.HasIndex("ScheduleId")
+                        .HasDatabaseName("ix_employees_schedule_id");
+
+                    b.ToTable("employees", (string)null);
                 });
 
             modelBuilder.Entity("BankDB.Models.Occupation", b =>
@@ -223,6 +230,26 @@ namespace BankDB.Migrations
                         .HasName("pk_occupation");
 
                     b.ToTable("occupation", (string)null);
+                });
+
+            modelBuilder.Entity("BankDB.Models.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_schedule");
+
+                    b.ToTable("schedule", (string)null);
                 });
 
             modelBuilder.Entity("BankDB.Models.ServiceForClientInBank", b =>
@@ -326,18 +353,23 @@ namespace BankDB.Migrations
 
                     b.Property<string>("CloseTime")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasColumnType("text")
                         .HasColumnName("close_time");
 
                     b.Property<string>("OpenTime")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)")
+                        .HasColumnType("text")
                         .HasColumnName("open_time");
 
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("schedule_id");
+
                     b.HasKey("WorkingDayId", "DayOfTheWeek")
-                        .HasName("WorkingDay_id");
+                        .HasName("working_day_id");
+
+                    b.HasIndex("ScheduleId")
+                        .HasDatabaseName("ix_working_day_schedule_id");
 
                     b.ToTable("working_day", (string)null);
                 });
@@ -347,7 +379,7 @@ namespace BankDB.Migrations
                     b.HasOne("BankDB.Models.Client", null)
                         .WithMany("AccountsInBank")
                         .HasForeignKey("ClientPersonId")
-                        .HasConstraintName("fk_account_in_bank_client_client_person_id");
+                        .HasConstraintName("fk_account_in_banks_clients_client_person_id");
                 });
 
             modelBuilder.Entity("BankDB.Models.BankBranch", b =>
@@ -357,7 +389,7 @@ namespace BankDB.Migrations
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_bank_branch_bank_bank_id");
+                        .HasConstraintName("fk_bank_branch_banks_bank_id");
 
                     b.Navigation("Bank");
                 });
@@ -369,16 +401,25 @@ namespace BankDB.Migrations
                         .HasForeignKey("BankBranchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_employee_bank_branch_bank_branch_id");
+                        .HasConstraintName("fk_employees_bank_branch_bank_branch_id");
 
                     b.HasOne("BankDB.Models.Occupation", "Occupation")
                         .WithMany()
                         .HasForeignKey("OccupationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_employee_occupation_occupation_id");
+                        .HasConstraintName("fk_employees_occupation_occupation_id");
+
+                    b.HasOne("BankDB.Models.Schedule", "EmployeeSchedule")
+                        .WithMany("Employee")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_employees_schedule_schedule_id");
 
                     b.Navigation("BankBranch");
+
+                    b.Navigation("EmployeeSchedule");
 
                     b.Navigation("Occupation");
                 });
@@ -390,7 +431,7 @@ namespace BankDB.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_service_for_client_in_bank_client_client_id");
+                        .HasConstraintName("fk_service_for_client_in_bank_clients_client_id");
 
                     b.HasOne("BankDB.Models.ServiceInBank", "ServiceInBank")
                         .WithMany("ServiceForClientInBanks")
@@ -411,14 +452,14 @@ namespace BankDB.Migrations
                         .HasForeignKey("ClientPersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_service_in_bank_client_client_person_id");
+                        .HasConstraintName("fk_service_in_bank_clients_client_person_id");
 
                     b.HasOne("BankDB.Models.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeePersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_service_in_bank_employee_employee_person_id");
+                        .HasConstraintName("fk_service_in_bank_employees_employee_person_id");
 
                     b.Navigation("Client");
 
@@ -432,9 +473,21 @@ namespace BankDB.Migrations
                         .HasForeignKey("AccountInBankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_transaction_account_in_bank_account_in_bank_id");
+                        .HasConstraintName("fk_transaction_account_in_banks_account_in_bank_id");
 
                     b.Navigation("AccountInBank");
+                });
+
+            modelBuilder.Entity("BankDB.Models.WorkingDay", b =>
+                {
+                    b.HasOne("BankDB.Models.Schedule", "Schedule")
+                        .WithMany("WorkingDays")
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_working_day_schedule_schedule_id");
+
+                    b.Navigation("Schedule");
                 });
 
             modelBuilder.Entity("BankDB.Models.AccountInBank", b =>
@@ -457,6 +510,13 @@ namespace BankDB.Migrations
                     b.Navigation("AccountsInBank");
 
                     b.Navigation("ServiceForClientInBanks");
+                });
+
+            modelBuilder.Entity("BankDB.Models.Schedule", b =>
+                {
+                    b.Navigation("Employee");
+
+                    b.Navigation("WorkingDays");
                 });
 
             modelBuilder.Entity("BankDB.Models.ServiceInBank", b =>
