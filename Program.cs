@@ -29,7 +29,7 @@ namespace BankDB
             //     }
             // }
 
-            
+
             //приклади використання union, except, intersect, join, distinct, group by, агрегатних функцій.
             using (var db = new BankContext())
             {
@@ -51,87 +51,86 @@ namespace BankDB
                 //     Console.WriteLine($"Role: {person.Role}");
                 //     Console.WriteLine("**********************************************");
                 // }
-                
-                
-                 // //except
-                 // var result = db.Clients.Where(x => x.LastName == "Doe");
-                 // var result2 = db.Clients.Where(x=> x.Citizenship == "Ukraine");
-                 // var result3 = result.Except(result2).ToList();
-                 // foreach (var person in result3)
-                 // {
-                 //     Console.WriteLine("**********************************************");
-                 //     Console.WriteLine($"FullName: {person.FirstName} {person.LastName}");
-                 //     Console.WriteLine($"Citizenship: {person.Citizenship}");
-                 //     Console.WriteLine("**********************************************");
-                 // }
-                 
-                 
-                 // //intersect
-                 // // var result = db.Clients.Where(x => x.LastName == "Doe" 
-                 // //                                    && x.Citizenship == "USA");
-                 //  var result = db.Clients.Where(x => x.LastName == "Doe")
-                 //      .Intersect(db.Clients.Where(x => x.Citizenship == "USA")).ToList();
-                 //  foreach (var person in result)
-                 // {
-                 //     Console.WriteLine("**********************************************");
-                 //        Console.WriteLine($"FullName: {person.FirstName} {person.LastName}");
-                 //        Console.WriteLine($"Citizenship: {person.Citizenship}");
-                 //        Console.WriteLine("**********************************************");
-                 // }
-                 
-                 
-                 // // join отримую операції, які виконував клієнт у банку
-                 // var result = db.ServiceForClientInBanks.Join(db.Clients, // другий набір даних
-                 //     x => x.ClientId, // властивість, за якою вибираємо у першому наборі даних
-                 //     u => u.PersonId, // властивість, за якою вибираємо у першому наборі даних
-                 //     (x, u) => new
-                 //     {
-                 //         Name = u.FirstName + u.LastName,
-                 //         ServiceId = x.ServiceInBankId,
-                 //         ServiceName = x.ServiceInBank.NameOfService,
-                 //     }
-                 // );
-                 // foreach (var person in result)
-                 // {
-                 //     Console.WriteLine("**********************************************");
-                 //        Console.WriteLine($"FullName: {person.Name}");
-                 //        Console.WriteLine($"ServiceName: {person.ServiceName}");
-                 //        Console.WriteLine($"ServiceId: {person.ServiceId}");
-                 //        Console.WriteLine("**********************************************");
-                 // }
-                 
-                
-                 // //distinct uniq values
-                 // var result = db.Clients.Select(x => x.Citizenship).Distinct().ToList();
-                 // foreach (var person in result)
-                 // {
-                 //     Console.WriteLine("**********************************************");
-                 //     Console.WriteLine($"Citizenship: {person}");
-                 //     Console.WriteLine("**********************************************");
-                 // }
-                 
-                 
-                 
-                 // //group by та Sum
-                 // var result = db.AccountInBanks.GroupBy(x=> x.Currency)
-                 //     .Select(x => new
-                 //     {
-                 //            Currency = x.Key,                                   //ключ від групи (x.Currency)
-                 //            Sum = x.Sum(y => y.AmountOnAccount),
-                 //        }).ToList();
-                 //
-                 // foreach (var account in result)
-                 // {
-                 //     Console.WriteLine("**********************************************");
-                 //     Console.WriteLine($"Currency: {account.Currency}");
-                 //     Console.WriteLine($"Sum: {account.Sum}");
-                 // }
+
+
+                // //except
+                // var result = db.Clients.Where(x => x.LastName == "Doe");
+                // var result2 = db.Clients.Where(x=> x.Citizenship == "Ukraine");
+                // var result3 = result.Except(result2).ToList();
+                // foreach (var person in result3)
+                // {
+                //     Console.WriteLine("**********************************************");
+                //     Console.WriteLine($"FullName: {person.FirstName} {person.LastName}");
+                //     Console.WriteLine($"Citizenship: {person.Citizenship}");
+                //     Console.WriteLine("**********************************************");
+                // }
+
+
+                // //intersect
+                // // var result = db.Clients.Where(x => x.LastName == "Doe" 
+                // //                                    && x.Citizenship == "USA");
+                //  var result = db.Clients.Where(x => x.LastName == "Doe")
+                //      .Intersect(db.Clients.Where(x => x.Citizenship == "USA")).ToList();
+                //  foreach (var person in result)
+                // {
+                //     Console.WriteLine("**********************************************");
+                //        Console.WriteLine($"FullName: {person.FirstName} {person.LastName}");
+                //        Console.WriteLine($"Citizenship: {person.Citizenship}");
+                //        Console.WriteLine("**********************************************");
+                // }
+
+
+                // // join отримую операції, які виконував клієнт у банку
+                // var result = db.ServiceForClientInBanks.Join(db.Clients, // другий набір даних
+                //     x => x.ClientId, // властивість, за якою вибираємо у першому наборі даних
+                //     u => u.PersonId, // властивість, за якою вибираємо у першому наборі даних
+                //     (x, u) => new
+                //     {
+                //         Name = u.FirstName + u.LastName,
+                //         ServiceId = x.ServiceInBankId,
+                //         ServiceName = x.ServiceInBank.NameOfService,
+                //     }
+                // );
+                // foreach (var person in result)
+                // {
+                //     Console.WriteLine("**********************************************");
+                //        Console.WriteLine($"FullName: {person.Name}");
+                //        Console.WriteLine($"ServiceName: {person.ServiceName}");
+                //        Console.WriteLine($"ServiceId: {person.ServiceId}");
+                //        Console.WriteLine("**********************************************");
+                // }
+
+
+                // //distinct uniq values
+                // var result = db.Clients.Select(x => x.Citizenship).Distinct().ToList();
+                // foreach (var person in result)
+                // {
+                //     Console.WriteLine("**********************************************");
+                //     Console.WriteLine($"Citizenship: {person}");
+                //     Console.WriteLine("**********************************************");
+                // }
+
+
+                // //group by та Sum
+                // var result = db.AccountInBanks.GroupBy(x=> x.Currency)
+                //     .Select(x => new
+                //     {
+                //            Currency = x.Key,                                   //ключ від групи (x.Currency)
+                //            Sum = x.Sum(y => y.AmountOnAccount),
+                //        }).ToList();
+                //
+                // foreach (var account in result)
+                // {
+                //     Console.WriteLine("**********************************************");
+                //     Console.WriteLine($"Currency: {account.Currency}");
+                //     Console.WriteLine($"Sum: {account.Sum}");
+                // }
             }
-            
-            
+
+
             //Навести приклади різних стратегій завантаження зв'язаних даних (Eager, Explicit, Lazy)
-            
-            
+
+
             // //Eager
             // using (var db = new BankContext())
             // {
@@ -161,8 +160,8 @@ namespace BankDB
             //         Console.WriteLine("**********************************************");
             //     }
             // }
-            
-            
+
+
             // //Explicit
             // using (var db = new BankContext())
             // {
@@ -190,8 +189,8 @@ namespace BankDB
             //     }
             //     Console.WriteLine("**********************************************");
             // }
-            
-            
+
+
             // // Lazy loading 
             // using (var db = new BankContext())
             // {
@@ -220,6 +219,34 @@ namespace BankDB
             //         Console.WriteLine("**********************************************");
             //     }
             // }
+
+
+            // // Навести приклад завантаження даних що не відслідковуються, їх зміни та збереження
+            // using (var db = new BankContext())
+            // {
+            //     db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking; // відключаємо відслідковування для всіх запитів
+            //     Console.WriteLine(db.ChangeTracker.Entries().Count()); // 0
+            //     var client = db.Clients.FirstOrDefault(x => x.PersonId==4);
+            //     Console.WriteLine($"{client.FirstName} {client.LastName}");
+            //     client.FirstName = "Vasya";
+            //     client.LastName = "Ivanov";
+            //     db.SaveChanges();
+            // }
+            //
+            // using (var db = new BankContext())
+            // {
+            //     var client = db.Clients.Where(x=> x.PersonId==4).AsNoTracking().FirstOrDefault();
+            //     Console.WriteLine($"{client.FirstName} {client.LastName}");
+            //     db.SaveChanges();
+            // }
+
+
+            // Навести приклади виклику збережених процедур та функцій за допомогою Entity Framework
+            using (var db = new BankContext())
+            {
+                var blogs = db.Clients.FromSqlRaw("select * from select_my_table(2);").ToList();
+                blogs.ForEach(x => Console.WriteLine($"ID:{x.PersonId}  {x.FirstName} {x.LastName}"));
+            }
         }
     }
 }
